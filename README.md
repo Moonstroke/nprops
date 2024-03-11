@@ -13,21 +13,32 @@ updated).
 
 ## Main differences with `java.util.Properties`
 
-1. Not a hash table
-The properties class does not extend `java.util.Hashtable`. It *is* not a
-properties map, it *contains* a properties map and offers methods to interact
-with it indirectly.
+Although this project aims to provide a substitute to the mentioned class,
+there are some notable deviations. Some things are done differently, or not at
+all, whether it be to get rid of historical but obsolete aspects, or due to
+divergences in view; some features are deliberately left out to keep the
+project simple. Below is a list, hopefully complete, of these differences.
 
-2. Unicode by default
-Instead of using Latin-1 as the default encoding, this project uses UTF-8. It
-will be compatible for the most part, but this removes the need for Unicode
-escape sequences (`\uXXXX` constructs) in the properties file.
+1. Not a hash table.
 
-3. No secondary map for default values
-This is unnecessary, really. One can simply call the `setProperty` for each
-default value before loading a properties file.
+	The properties class does not extend `java.util.Hashtable`. It *is* not a
+	properties map, it *contains* a properties map, and offers methods to
+	interact with it indirectly.
 
-4. Dropped support for XML I/O
-For the most part, it is the `.properties` format that is used to store
-properties; it is clear, legible and concise. The XML format is far less used,
-so support is not essential. Moreover, it is more verbose and less convenient.
+2. Unicode by default.
+
+	Instead of using Latin-1 as the default encoding, this project uses UTF-8.
+	It will be compatible for the most part, but this removes the need for
+	Unicode escape sequences (`\uXXXX` constructs) in the properties file.
+
+3. No secondary map for default values.
+
+	This is unnecessary, really. One can simply call the `setProperty` for each
+	default value before loading a properties file.
+
+4. Dropped support for XML I/O.
+
+	For the most part, it is the `.properties` format that is used to store
+	properties; it is clear, legible and concise. The XML format is far seldom
+	used, so support is not essential. Moreover, it is more verbose and less
+	convenient.
