@@ -14,6 +14,10 @@ public class Properties {
 		throw new UnsupportedOperationException("Not implemented"); // TODO
 	}
 
+	public void store(OutputStream outputStream, String comments) throws IOException {
+		throw new UnsupportedOperationException("Not implemented"); // TODO
+	}
+
 
 	public void setProperty(String key, String value) {
 		throw new UnsupportedOperationException("Not implemented"); // TODO
