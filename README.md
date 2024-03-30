@@ -23,13 +23,15 @@ project simple. Below is a list, hopefully complete, of these differences.
 
 	The properties class does not extend `java.util.Hashtable`. It *is* not a
 	properties map, it *contains* a properties map, and offers methods to
-	interact with it indirectly.
+	interact with it indirectly. This also means that the public methods of the
+	`Map` API are unavailable.
 
 2. Unicode by default.
 
 	Instead of using Latin-1 as the default encoding, this project uses UTF-8.
 	It will be compatible for the most part, but this removes the need for
-	Unicode escape sequences (`\uXXXX` constructs) in the properties file.
+	Unicode escape sequences (`\uXXXX` constructs), allowing for a more
+	locale-friendly property file.
 
 3. No secondary map for default values.
 
