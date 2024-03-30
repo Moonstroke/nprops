@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import io.github.moonstroke.nprops.Properties;
 
-class BaseNpropsPropertiesTest {
+abstract class BaseNpropsPropertiesTest {
 
 	protected Properties properties;
 
