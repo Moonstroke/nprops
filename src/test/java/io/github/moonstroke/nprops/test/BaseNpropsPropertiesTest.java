@@ -37,8 +37,7 @@ abstract class BaseNpropsPropertiesTest {
 			properties.store(outputStream, comments);
 			return outputStream.toString(StandardCharsets.UTF_8);
 		} catch (IOException ioe) {
-			fail(ioe);
-			return null; /* Not reachable; added to please the compiler */
+			return fail(ioe);
 		}
 	}
 }
