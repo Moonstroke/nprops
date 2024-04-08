@@ -54,6 +54,9 @@ public class Properties {
 	 * If the comments consist of several lines (i.e. it contains line separator
 	 * characters), the comment characters are injected by the method.
 	 *
+	 * On the other hand, if the comments are null, no leading comment at all is
+	 * written to the stream.
+	 *
 	 * @param outputStream The stream where to write
 	 * @param comments     The leading comments to output
 	 *
