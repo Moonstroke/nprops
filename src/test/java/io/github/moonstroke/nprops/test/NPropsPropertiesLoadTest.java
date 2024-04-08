@@ -51,10 +51,8 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
-	void testLoadIgnoresBangComments() {
-		loadFromString("foo = bar\n! comment\nbaz = quux");
-		assertEquals(properties.getProperty("foo"), "bar");
-		assertEquals(properties.getProperty("baz"), "quux");
+	void testLoadFailsOnBangComments() {
+		assertThrows(IllegalStateException.class, () -> loadFromString("foo = bar\n! comment\nbaz = quux"));
 	}
 
 

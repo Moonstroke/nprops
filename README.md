@@ -65,7 +65,14 @@ project simple. Below is a list, hopefully complete, of these differences.
 	and allows for homogeneous properties files. Also, this allows to use URIs
 	(with a protocol) as keys.
 
-8. No silent discard of non-escaping backslashes
+8. No exclamation mark as comment character
+
+	In the same vein, the class only recognizes one character to denote a
+	comment line, the most widespread of the two: the hash sign. This maintains
+	immediate interoperability with usual scripting languages, although this is
+	not a goal of the project.
+
+9. No silent discard of non-escaping backslashes
 
 	Simply ignoring backslashes that are not part of an escape sequence is one
 	of the most decried features of the standard `Properties` class. This one
