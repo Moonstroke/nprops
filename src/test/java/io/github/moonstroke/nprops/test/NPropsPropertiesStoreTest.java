@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 
 class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 
+	private static final String EOL = System.lineSeparator();
+
 	@Test
 	void testStoreNullStreamFails() {
 		assertThrows(NullPointerException.class, () -> properties.store(null, "comment"));
@@ -16,7 +18,7 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 	void testStoreAddsSpacesAroundDelimiters() {
 		properties.setProperty("foo", "bar");
 		String stored = storeToString(null);
-		assertEquals(stored, "foo = bar" + System.lineSeparator());
+		assertEquals(stored, "foo = bar" + EOL);
 	}
 
 	@Test
@@ -24,7 +26,7 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString(null);
-		assertEquals(stored, "foo = bar" + System.lineSeparator() + "baz = quux" + System.lineSeparator());
+		assertEquals(stored, "foo = bar" + EOL + "baz = quux" + EOL);
 	}
 
 	@Test
@@ -32,8 +34,7 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 		String propsStr = "foo = bar\n#comment\n\tbaz = quux";
 		loadFromString(propsStr);
 		String stored = storeToString("comments");
-		assertEquals(stored, "# comments" + System.lineSeparator() + "foo = bar" + System.lineSeparator() + "baz = quux"
-		             + System.lineSeparator());
+		assertEquals(stored, "# comments" + EOL + "foo = bar" + EOL + "baz = quux" + EOL);
 	}
 
 	@Test
@@ -41,8 +42,7 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString("multi-line\ncomments");
-		assertEquals(stored, "# multi-line" + System.lineSeparator() + "# comments" + System.lineSeparator()
-		             + "foo = bar" + System.lineSeparator() + "baz = quux" + System.lineSeparator());
+		assertEquals(stored, "# multi-line" + EOL + "# comments" + EOL + "foo = bar" + EOL + "baz = quux" + EOL);
 	}
 
 	// TODO
