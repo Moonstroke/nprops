@@ -20,5 +20,13 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 		assertEquals(stored, "# comments\nfoo = bar\nbaz = quux\n");
 	}
 
+	@Test
+	void testStoreHandlesMultiLineLeadingComments() {
+		properties.setProperty("foo", "bar");
+		properties.setProperty("baz", "quux");
+		String stored = storeToString("multi-line\ncomments");
+		assertEquals(stored, "# multi-line\n# comments\nfoo = bar\nbaz = quux\n");
+	}
+
 	// TODO
 }
