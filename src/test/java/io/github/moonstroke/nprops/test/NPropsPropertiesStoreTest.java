@@ -13,11 +13,27 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
+	void testStoreAddsSpacesAroundDelimiters() {
+		properties.setProperty("foo", "bar");
+		String stored = storeToString(null);
+		assertEquals(stored, "foo = bar" + System.lineSeparator());
+	}
+
+	@Test
+	void testStoreSeparatesPropertiesWithPlatformEOL() {
+		properties.setProperty("foo", "bar");
+		properties.setProperty("baz", "quux");
+		String stored = storeToString(null);
+		assertEquals(stored, "foo = bar" + System.lineSeparator() + "baz = quux" + System.lineSeparator());
+	}
+
+	@Test
 	void testStoreStripsCommentsAndWhitespace() {
 		String propsStr = "foo = bar\n#comment\n\tbaz = quux";
 		loadFromString(propsStr);
 		String stored = storeToString("comments");
-		assertEquals(stored, "# comments\nfoo = bar\nbaz = quux\n");
+		assertEquals(stored, "# comments" + System.lineSeparator() + "foo = bar" + System.lineSeparator() + "baz = quux"
+		             + System.lineSeparator());
 	}
 
 	@Test
@@ -25,7 +41,8 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString("multi-line\ncomments");
-		assertEquals(stored, "# multi-line\n# comments\nfoo = bar\nbaz = quux\n");
+		assertEquals(stored, "# multi-line" + System.lineSeparator() + "# comments" + System.lineSeparator()
+		             + "foo = bar" + System.lineSeparator() + "baz = quux" + System.lineSeparator());
 	}
 
 	// TODO
