@@ -3,6 +3,7 @@ package io.github.moonstroke.nprops;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 
 /**
  * The programmatic interface to a text file where an application's properties
@@ -17,7 +18,10 @@ import java.io.OutputStream;
  *
  * @author Moonstroke
  */
-public class Properties {
+public class Properties implements Serializable {
+
+	private static final long serialVersionUID = 8542475994347333139L;
+
 
 	/**
 	 * Load properties from the given input stream into this object.
