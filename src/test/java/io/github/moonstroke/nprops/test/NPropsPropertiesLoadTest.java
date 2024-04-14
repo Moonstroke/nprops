@@ -44,6 +44,28 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 	// TODO test all authorized backslash escapes
 
 	@Test
+	void testLoadBackslashEscapesLineBreak() {
+		/* property file is:
+		 * foo = bar \
+		 * other = property
+		 */
+		loadFromString("foo = bar\\\n   other = property");
+		assertEquals(properties.getProperty("foo"), "barother = property");
+		assertEquals(properties.getProperty("other"), null);
+	}
+
+	@Test
+	void testLoadEscapedBackslashDoesNotEscapeLineBreak() {
+		/* property file is:
+		 * foo = bar \\
+		 * other = property
+		 */
+		loadFromString("foo = bar\\\\\n   other = property");
+		assertEquals(properties.getProperty("foo"), "bar");
+		assertEquals(properties.getProperty("other"), "property");
+	}
+
+	@Test
 	void testLoadIgnoresHashComments() {
 		loadFromString("foo = bar\n# comment\nbaz = quux");
 		assertEquals(properties.getProperty("foo"), "bar");
