@@ -1,6 +1,7 @@
 package io.github.moonstroke.nprops.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.InputStream;
@@ -41,7 +42,96 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 		assertThrows(IllegalStateException.class, () -> loadFromString("foo = bar\\x"));
 	}
 
-	// TODO test all authorized backslash escapes
+	@Test
+	void testLoadBackslashNIsLF() {
+		/* property file is:
+		 * foo = bar\nbaz
+		 */
+		loadFromString("foo = bar\\nbaz");
+		assertEquals(properties.getProperty("foo"), "bar\nbaz");
+	}
+
+	@Test
+	void testLoadBackslashRIsCR() {
+		/* property file is:
+		 * foo = bar\rbaz
+		 */
+		loadFromString("foo = bar\\rbaz");
+		assertEquals(properties.getProperty("foo"), "bar\rbaz");
+	}
+
+	@Test
+	void testLoadBackslashTIsHorizontalTab() {
+		/* property file is:
+		 * foo = bar\tbaz
+		 */
+		loadFromString("foo = bar\\tbaz");
+		assertEquals(properties.getProperty("foo"), "bar\tbaz");
+	}
+
+	@Test
+	void testLoadBackslashFIsFormFeed() {
+		/* property file is:
+		 * foo = bar\fbaz
+		 */
+		loadFromString("foo = bar\\fbaz");
+		assertEquals(properties.getProperty("foo"), "bar\fbaz");
+	}
+
+	@Test
+	void testLoadBackslashZeroIsAsciiNul() {
+		/* property file is:
+		 * foo = bar\0baz
+		 */
+		loadFromString("foo = bar\\0baz");
+		assertEquals(properties.getProperty("foo"), "bar\0baz");
+	}
+
+	@Test
+	void testLoadEscapedBackslash() {
+		/* property file is:
+		 * foo = bar\\baz
+		 */
+		loadFromString("foo = bar\\\\baz");
+		assertEquals(properties.getProperty("foo"), "bar\\baz");
+	}
+
+	@Test
+	void testLoadEscapedDelimiterInKeyIsPartOfIt() {
+		/* property file is:
+		 * foo \= bar=baz
+		 */
+		loadFromString("foo \\= bar=baz");
+		assertNull(properties.getProperty("foo"));
+		assertEquals(properties.getProperty("foo = bar"), "baz");
+	}
+
+	@Test
+	void testLoadDelimiterBackslashInValueIsDiscarded() {
+		/* property file is:
+		 * foo = bar\=baz
+		 */
+		loadFromString("foo = bar\\=baz");
+		assertEquals(properties.getProperty("foo"), "bar=baz");
+	}
+
+	@Test
+	void testLoadColonBackslashInValueIsDiscarded() {
+		/* property file is:
+		 * foo = bar\:baz
+		 */
+		loadFromString("foo = bar\\:baz");
+		assertEquals(properties.getProperty("foo"), "bar:baz");
+	}
+
+	@Test
+	void testLoadEscapedWhitespaceIsPreserved() {
+		/* property file is:
+		 * foo = \ bar\ [trailing space]
+		 */
+		loadFromString("foo = \\ bar\\ ");
+		assertEquals(properties.getProperty("foo"), " bar ");
+	}
 
 	@Test
 	void testLoadBackslashEscapesLineBreak() {
