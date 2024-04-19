@@ -18,5 +18,10 @@ class NPropsPropertiesGetTest extends BaseNpropsPropertiesTest {
 		assertSame(properties.getProperty("non-existent key", defaultValue), defaultValue);
 	}
 
+	@Test
+	void testGetPropertyNullKeyReturnsNull() {
+		assertNull(properties.getProperty(null));
+	}
+
 	// TODO
 }
