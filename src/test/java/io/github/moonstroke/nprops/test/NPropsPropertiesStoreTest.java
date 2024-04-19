@@ -23,6 +23,10 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 
 	@Test
 	void testStoreSeparatesPropertiesWithPlatformEOL() {
+		/* expected property file is:
+		 * foo = bar
+		 * baz = quux
+		 */
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString(null);
@@ -31,6 +35,11 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 
 	@Test
 	void testStoreStripsCommentsAndWhitespace() {
+		/* expected property file is:
+		 * # comments
+		 * foo = bar
+		 * baz = quux
+		 */
 		String propsStr = "foo = bar\n#comment\n\tbaz = quux";
 		loadFromString(propsStr);
 		String stored = storeToString("comments");
@@ -39,6 +48,12 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 
 	@Test
 	void testStoreHandlesMultiLineLeadingComments() {
+		/* expected property file is:
+		 * # multi-line
+		 * # comments
+		 * foo = bar
+		 * baz = quux
+		 */
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString("multi-line\ncomments");
