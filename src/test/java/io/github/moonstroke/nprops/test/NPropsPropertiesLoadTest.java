@@ -67,6 +67,11 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 
 	@Test
 	void testLoadIgnoresHashComments() {
+		/* property file is:
+		 * foo = bar
+		 * # comment
+		 * baz = quux
+		 */
 		loadFromString("foo = bar\n# comment\nbaz = quux");
 		assertEquals(properties.getProperty("foo"), "bar");
 		assertEquals(properties.getProperty("baz"), "quux");
@@ -74,6 +79,11 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 
 	@Test
 	void testLoadFailsOnBangComments() {
+		/* property file is:
+		 * foo = bar
+		 * ! comment
+		 * baz = quux
+		 */
 		assertThrows(IllegalStateException.class, () -> loadFromString("foo = bar\n! comment\nbaz = quux"));
 	}
 
