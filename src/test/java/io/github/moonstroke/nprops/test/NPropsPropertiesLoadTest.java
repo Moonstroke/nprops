@@ -38,11 +38,6 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
-	void testLoadFailsOnNonEscapingBackslash() {
-		assertThrows(IllegalStateException.class, () -> loadFromString("foo = bar\\x"));
-	}
-
-	@Test
 	void testLoadBackslashNIsLF() {
 		/* property file is:
 		 * foo = bar\nbaz
@@ -97,6 +92,34 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
+	void testLoadBackslashBIsNotAccepted() {
+		assertThrows(IllegalStateException.class, () -> loadFromString("foo = bar\\b"));
+	}
+
+	@Test
+	void testLoadFailsOnNonEscapingBackslash() {
+		assertThrows(IllegalStateException.class, () -> loadFromString("foo = bar\\x"));
+	}
+
+	@Test
+	void testLoadEscapedQuotesAreToleratedInKey() {
+		/* property file is:
+		 * f\'o\"o = bar
+		 */
+		loadFromString("f\\'o\\\"o = bar");
+		assertEquals(properties.getProperty("f'o\"o"), "bar");
+	}
+
+	@Test
+	void testLoadEscapedQuotesAreToleratedInValue() {
+		/* property file is:
+		 * foo = \'bar \"
+		 */
+		loadFromString("foo = \\'bar \\\"");
+		assertEquals(properties.getProperty("foo"), "'bar \"");
+	}
+
+	@Test
 	void testLoadEscapedDelimiterInKeyIsPartOfIt() {
 		/* property file is:
 		 * foo \= bar=baz
@@ -104,6 +127,16 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 		loadFromString("foo \\= bar=baz");
 		assertNull(properties.getProperty("foo"));
 		assertEquals(properties.getProperty("foo = bar"), "baz");
+	}
+
+	@Test
+	void testLoadEscapedColonInKeyIsTolerated() {
+		/* property file is:
+		 * foo \: bar=baz
+		 */
+		loadFromString("foo \\: bar=baz");
+		assertNull(properties.getProperty("foo"));
+		assertEquals(properties.getProperty("foo : bar"), "baz");
 	}
 
 	@Test
@@ -187,9 +220,15 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 		assertEquals(properties.getProperty("foo"), "bar # not a comment");
 	}
 
-	/* Special case of testLoadFailsOnNonEscapingBackslash */
+	/* Special cases of non-handled escape sequence: */
+
 	@Test
 	void testLoadFailsOnUnicodeEscape() {
 		assertThrows(IllegalStateException.class, () -> loadFromString("foo = b\\u0061r"));
+	}
+
+	@Test
+	void testLoadFailsOnOctalSequence() {
+		assertThrows(IllegalStateException.class, () -> loadFromString("foo = b\\061r"));
 	}
 }
