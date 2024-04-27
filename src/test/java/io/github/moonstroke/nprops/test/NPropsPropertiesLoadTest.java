@@ -140,7 +140,7 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
-	void testLoadDelimiterBackslashInValueIsDiscarded() {
+	void testLoadBackslashBeforeDelimiterInValueIsDiscarded() {
 		/* property file is:
 		 * foo = bar\=baz
 		 */
@@ -149,7 +149,7 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
-	void testLoadColonBackslashInValueIsDiscarded() {
+	void testLoadBackslashBeforeColonInValueIsDiscarded() {
 		/* property file is:
 		 * foo = bar\:baz
 		 */
@@ -172,8 +172,8 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 		 * foo = bar \
 		 * other = property
 		 */
-		loadFromString("foo = bar\\\n   other = property");
-		assertEquals(properties.getProperty("foo"), "barother = property");
+		loadFromString("foo = bar \\\n   other = property");
+		assertEquals(properties.getProperty("foo"), "bar other = property");
 		assertEquals(properties.getProperty("other"), null);
 	}
 
@@ -183,8 +183,8 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 		 * foo = bar \\
 		 * other = property
 		 */
-		loadFromString("foo = bar\\\\\n   other = property");
-		assertEquals(properties.getProperty("foo"), "bar");
+		loadFromString("foo = bar \\\\\n   other = property");
+		assertEquals(properties.getProperty("foo"), "bar \\");
 		assertEquals(properties.getProperty("other"), "property");
 	}
 
@@ -204,10 +204,10 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 	void testLoadFailsOnBangComments() {
 		/* property file is:
 		 * foo = bar
-		 * ! comment
+		 * ! not a comment
 		 * baz = quux
 		 */
-		assertThrows(IllegalStateException.class, () -> loadFromString("foo = bar\n! comment\nbaz = quux"));
+		assertThrows(IllegalStateException.class, () -> loadFromString("foo = bar\n! not a comment\nbaz = quux"));
 	}
 
 
