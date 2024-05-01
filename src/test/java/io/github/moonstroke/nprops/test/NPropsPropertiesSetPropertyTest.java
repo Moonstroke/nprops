@@ -2,7 +2,6 @@ package io.github.moonstroke.nprops.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -33,9 +32,10 @@ class NPropsPropertiesSetPropertyTest extends BaseNpropsPropertiesTest {
 
 	@Test
 	void testSetPropertyOverwritesExisting() {
-		properties.setProperty("key", "initial value");
+		String key = "key";
+		properties.setProperty(key, "initial value");
 		String newValue = "new value";
-		properties.setProperty("key", newValue);
-		assertSame(properties.getProperty("key"), newValue);
+		properties.setProperty(key, newValue);
+		assertEquals(properties.getProperty(key), newValue);
 	}
 }
