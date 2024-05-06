@@ -170,7 +170,7 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 	void testLoadBackslashEscapesLineBreak() {
 		/* property file is:
 		 * foo = bar \
-		 * other = property
+		 *    other = property
 		 */
 		loadFromString("foo = bar \\\n   other = property");
 		assertEquals(properties.getProperty("foo"), "bar other = property");
@@ -181,7 +181,7 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 	void testLoadEscapedBackslashDoesNotEscapeLineBreak() {
 		/* property file is:
 		 * foo = bar \\
-		 * other = property
+		 *    other = property
 		 */
 		loadFromString("foo = bar \\\\\n   other = property");
 		assertEquals(properties.getProperty("foo"), "bar \\");
