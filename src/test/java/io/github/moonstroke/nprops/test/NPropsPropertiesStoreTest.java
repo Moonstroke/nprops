@@ -9,6 +9,7 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 
 	private static final String EOL = System.lineSeparator();
 
+
 	@Test
 	void testStoreNullStreamFails() {
 		assertThrows(NullPointerException.class, () -> properties.store(null, "comment"));
@@ -58,6 +59,22 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 		properties.setProperty("baz", "quux");
 		String stored = storeToString("multi-line\ncomments");
 		assertEquals(stored, "# multi-line" + EOL + "# comments" + EOL + "foo = bar" + EOL + "baz = quux" + EOL);
+	}
+
+	@Test
+	void testStoreHandlesCommentsInLeadingComments() {
+		/* expected property file is:
+		 * # multi-line
+		 * # comments
+		 * #with lines
+		 * #already commented
+		 * foo = bar
+		 * baz = quux */
+		properties.setProperty("foo", "bar");
+		properties.setProperty("baz", "quux");
+		String stored = storeToString("multi-line\ncomments\n#with lines\n#already commented");
+		assertEquals(stored, "# multi-line" + EOL + "# comments" + EOL + "#with lines" + EOL + "#already commented"
+		                     + EOL + "foo = bar" + EOL + "baz = quux" + EOL);
 	}
 
 	// TODO
