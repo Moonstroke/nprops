@@ -16,35 +16,35 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
-	void testStoreAddsSpacesAroundDelimiters() {
+	void testStoreAddsNoSpacesAroundDelimiters() {
 		properties.setProperty("foo", "bar");
 		String stored = storeToString(null);
-		assertEquals(stored, "foo = bar" + EOL);
+		assertEquals(stored, "foo=bar" + EOL);
 	}
 
 	@Test
 	void testStoreSeparatesPropertiesWithPlatformEOL() {
 		/* expected property file is:
-		 * foo = bar
-		 * baz = quux
+		 * foo=bar
+		 * baz=quux
 		 */
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString(null);
-		assertEquals(stored, "foo = bar" + EOL + "baz = quux" + EOL);
+		assertEquals(stored, "foo=bar" + EOL + "baz=quux" + EOL);
 	}
 
 	@Test
 	void testStoreStripsCommentsAndWhitespace() {
 		/* expected property file is:
 		 * # comments
-		 * foo = bar
-		 * baz = quux
+		 * foo=bar
+		 * baz=quux
 		 */
 		String propsStr = "foo = bar\n#comment\n\tbaz = quux";
 		loadFromString(propsStr);
 		String stored = storeToString("comments");
-		assertEquals(stored, "# comments" + EOL + "foo = bar" + EOL + "baz = quux" + EOL);
+		assertEquals(stored, "# comments" + EOL + "foo=bar" + EOL + "baz=quux" + EOL);
 	}
 
 	@Test
@@ -52,13 +52,13 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 		/* expected property file is:
 		 * # multi-line
 		 * # comments
-		 * foo = bar
-		 * baz = quux
+		 * foo=bar
+		 * baz=quux
 		 */
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString("multi-line\ncomments");
-		assertEquals(stored, "# multi-line" + EOL + "# comments" + EOL + "foo = bar" + EOL + "baz = quux" + EOL);
+		assertEquals(stored, "# multi-line" + EOL + "# comments" + EOL + "foo=bar" + EOL + "baz=quux" + EOL);
 	}
 
 	@Test
@@ -68,13 +68,13 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 		 * # comments
 		 * #with lines
 		 * #already commented
-		 * foo = bar
-		 * baz = quux */
+		 * foo=bar
+		 * baz=quux */
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString("multi-line\ncomments\n#with lines\n#already commented");
 		assertEquals(stored, "# multi-line" + EOL + "# comments" + EOL + "#with lines" + EOL + "#already commented"
-		                     + EOL + "foo = bar" + EOL + "baz = quux" + EOL);
+		                     + EOL + "foo=bar" + EOL + "baz=quux" + EOL);
 	}
 
 	// TODO
