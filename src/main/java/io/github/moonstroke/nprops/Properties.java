@@ -119,7 +119,11 @@ public class Properties implements Serializable {
 	/**
 	 * Write the properties of this object to the given output stream.
 	 *
-	 * The properties are written in UTF-8.
+	 * The output is encoded in UTF-8; the properties are written in a syntax
+	 * compatible with what the method {@link load} accepts: any delimiter
+	 * character in the key is escaped. No whitespace is added around the
+	 * delimiter, properties lines are not wrapped at any length, and no blank
+	 * lines or comments are output.
 	 *
 	 * @param outputStream The stream where to write
 	 *
@@ -130,16 +134,16 @@ public class Properties implements Serializable {
 	}
 
 	/**
-	 * Write the properties of this object to the given output stream, preceded with
-	 * the given comments.
+	 * Write the properties of this object to the given output stream, preceded
+	 * with the given comment.
 	 *
-	 * The properties are written in UTF-8.
+	 * The properties are encoded in UTF-8, and written in a manner that the
+	 * method {@link load} would accept as input.
 	 *
-	 * If the comments consist of several lines (i.e. it contains line separator
-	 * characters), the comment characters are injected by the method.
-	 *
-	 * On the other hand, if the comments are null, no leading comment at all is
-	 * written to the stream.
+	 * If not null, the provided comments are output after a ASCII hash sign
+	 * and a single space character. If they consist of several lines (i.e. it
+	 * contains line separators), a hash sign and a space are output before
+	 * each comment line that does not start with a hash sign.
 	 *
 	 * @param outputStream The stream where to write
 	 * @param comments     The leading comments to output
