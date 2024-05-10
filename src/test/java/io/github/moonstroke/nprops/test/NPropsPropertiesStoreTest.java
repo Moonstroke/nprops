@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.OutputStream;
+import java.io.Writer;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +16,11 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 	@Test
 	void testStoreNullStreamFails() {
 		assertThrows(NullPointerException.class, () -> properties.store((OutputStream) null, "comment"));
+	}
+
+	@Test
+	void testStoreNullWriterFails() {
+		assertThrows(NullPointerException.class, () -> properties.store((Writer) null, "comment"));
 	}
 
 	@Test
