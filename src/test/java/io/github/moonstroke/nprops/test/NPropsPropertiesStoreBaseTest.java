@@ -36,6 +36,31 @@ abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
+	void testStoreCommentsNullOutputsNoComment() {
+		/* expected property file is:
+		 * foo=bar
+		 * baz=quux
+		 */
+		properties.setProperty("foo", "bar");
+		properties.setProperty("baz", "quux");
+		String stored = storeToString(null);
+		assertEquals(stored, "foo=bar" + EOL + "baz=quux" + EOL);
+	}
+
+	@Test
+	void testStoreCommentsNotNullOutputsTheCommentsWithHashAndSpace() {
+		/* expected property file is:
+		 * # comments
+		 * foo=bar
+		 * baz=quux
+		 */
+		properties.setProperty("foo", "bar");
+		properties.setProperty("baz", "quux");
+		String stored = storeToString("comments");
+		assertEquals(stored, "# comments" + EOL + "foo=bar" + EOL + "baz=quux" + EOL);
+	}
+
+	@Test
 	void testStoreStripsCommentsAndWhitespace() {
 		/* expected property file is:
 		 * # comments
