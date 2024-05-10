@@ -54,8 +54,9 @@ import java.io.Writer;
  * is not accepted as property delimiter); the sequence evaluates to the colon
  * character itself. This feature is provided for compatibility with the
  * standard {@link java.util.Properties} class. For the same reason, sequences
- * {@code \'} and {@code \"} are accepted, and evaluate to the single and
- * double quotes characters, respectively.<br>
+ * {@code \'}, {@code \"} and {@code \ } (an escaped space character; this one
+ * only in the key) are accepted, and evaluate to the single and double quotes
+ * characters and the space character, respectively.<br>
  * In contrast with the original class, an illegal escape sequence is not
  * silently ignored, but an error is raised when parsing, to immediately report
  * possible syntax oversights.
