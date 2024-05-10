@@ -164,6 +164,15 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
+	void testLoadEscapedSpaceInKeyIsAccepted() {
+		/* property file is:
+		 * foo\ bar = baz
+		 */
+		loadFromString("foo\\ bar = baz");
+		assertEquals(properties.getProperty("foo bar"), "baz");
+	}
+
+	@Test
 	void testLoadEscapedWhitespaceIsPreserved() {
 		/* property file is:
 		 * foo = \ bar\ [trailing space]
