@@ -22,6 +22,16 @@ class NPropsPropertiesStoreOutputStreamTest extends NPropsPropertiesStoreBaseTes
 		}
 	}
 
+	@Override
+	protected String storeToString() {
+		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+			properties.store(outputStream);
+			return outputStream.toString(StandardCharsets.UTF_8);
+		} catch (IOException ioe) {
+			return fail(ioe);
+		}
+	}
+
 	@Test
 	void testStoreNullOutputStreamFails() {
 		assertThrows(NullPointerException.class, () -> properties.store((OutputStream) null, "comment"));
