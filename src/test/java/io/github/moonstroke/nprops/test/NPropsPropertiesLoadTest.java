@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.InputStream;
+import java.io.Reader;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +14,11 @@ class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
 	@Test
 	void testLoadNullInputStreamFails() {
 		assertThrows(NullPointerException.class, () -> properties.load((InputStream) null));
+	}
+
+	@Test
+	void testLoadNullReaderFails() {
+		assertThrows(NullPointerException.class, () -> properties.load((Reader) null));
 	}
 
 	@Test
