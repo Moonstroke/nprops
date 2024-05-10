@@ -1,30 +1,19 @@
 package io.github.moonstroke.nprops.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.StringReader;
-import java.io.Writer;
 
 import org.junit.jupiter.api.Test;
 
-class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
+abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 
 	private static final String EOL = System.lineSeparator();
 
-
-	@Test
-	void testStoreNullStreamFails() {
-		assertThrows(NullPointerException.class, () -> properties.store((OutputStream) null, "comment"));
-	}
-
-	@Test
-	void testStoreNullWriterFails() {
-		assertThrows(NullPointerException.class, () -> properties.store((Writer) null, "comment"));
-	}
+	/* Overridden in subclasses to use either the OutputStream or Writer overload */
+	protected abstract String storeToString(String comments);
 
 	@Test
 	void testStoreAddsNoSpacesAroundDelimiters() {

@@ -4,22 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.InputStream;
-import java.io.Reader;
-
 import org.junit.jupiter.api.Test;
 
-class NPropsPropertiesLoadTest extends BaseNpropsPropertiesTest {
+abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 
-	@Test
-	void testLoadNullInputStreamFails() {
-		assertThrows(NullPointerException.class, () -> properties.load((InputStream) null));
-	}
-
-	@Test
-	void testLoadNullReaderFails() {
-		assertThrows(NullPointerException.class, () -> properties.load((Reader) null));
-	}
+	/* Overridden in subclasses to use either the InputStream or Reader overload */
+	protected abstract void loadFromString(String props);
 
 	@Test
 	void testLoadOnePropertySucceeds() {
