@@ -2,8 +2,11 @@ package io.github.moonstroke.nprops.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.io.Writer;
 
 import org.junit.jupiter.api.Test;
@@ -50,7 +53,11 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 		 * baz=quux
 		 */
 		String propsStr = "foo = bar\n#comment\n\tbaz = quux";
-		loadFromString(propsStr);
+		try {
+			properties.load(new StringReader(propsStr));
+		} catch (IOException e) {
+			fail(e);
+		}
 		String stored = storeToString("comments");
 		assertEquals(stored, "# comments" + EOL + "foo=bar" + EOL + "baz=quux" + EOL);
 	}
