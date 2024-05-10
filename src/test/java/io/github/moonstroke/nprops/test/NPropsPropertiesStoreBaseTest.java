@@ -14,11 +14,12 @@ abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 
 	/* Overridden in subclasses to use either the OutputStream or Writer overload */
 	protected abstract String storeToString(String comments);
+	protected abstract String storeToString();
 
 	@Test
 	void testStoreAddsNoSpacesAroundDelimiters() {
 		properties.setProperty("foo", "bar");
-		String stored = storeToString(null);
+		String stored = storeToString();
 		assertEquals(stored, "foo=bar" + EOL);
 	}
 
@@ -30,7 +31,7 @@ abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 		 */
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
-		String stored = storeToString(null);
+		String stored = storeToString();
 		assertEquals(stored, "foo=bar" + EOL + "baz=quux" + EOL);
 	}
 

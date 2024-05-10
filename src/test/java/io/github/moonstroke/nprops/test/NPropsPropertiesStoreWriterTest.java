@@ -22,6 +22,17 @@ class NPropsPropertiesStoreWriterTest extends NPropsPropertiesStoreBaseTest {
 		return writer.toString();
 	}
 
+	@Override
+	protected String storeToString() {
+		Writer writer = new StringWriter();
+		try {
+			properties.store(writer);
+		} catch (IOException ioe) {
+			return fail(ioe);
+		}
+		return writer.toString();
+	}
+
 	@Test
 	void testStoreNullWriterFails() {
 		assertThrows(NullPointerException.class, () -> properties.store((Writer) null, "comment"));
