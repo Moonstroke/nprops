@@ -3,6 +3,8 @@ package io.github.moonstroke.nprops.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.OutputStream;
+
 import org.junit.jupiter.api.Test;
 
 class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
@@ -12,7 +14,7 @@ class NPropsPropertiesStoreTest extends BaseNpropsPropertiesTest {
 
 	@Test
 	void testStoreNullStreamFails() {
-		assertThrows(NullPointerException.class, () -> properties.store(null, "comment"));
+		assertThrows(NullPointerException.class, () -> properties.store((OutputStream) null, "comment"));
 	}
 
 	@Test
