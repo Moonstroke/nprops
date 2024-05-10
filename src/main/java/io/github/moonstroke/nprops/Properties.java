@@ -3,7 +3,9 @@ package io.github.moonstroke.nprops;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.io.Serializable;
+import java.io.Writer;
 
 /**
  * The programmatic interface to a text file where an application's properties
@@ -117,6 +119,17 @@ public class Properties implements Serializable {
 	}
 
 	/**
+	 * Load properties from the given reader into this object.
+	 *
+	 * @param reader The reader to read from
+	 *
+	 * @throws IOException if an error occurs when reading
+	 */
+	public void load(Reader reader) throws IOException {
+		throw new UnsupportedOperationException("Not implemented"); // TODO
+	}
+
+	/**
 	 * Write the properties of this object to the given output stream.
 	 *
 	 * The output is encoded in UTF-8; the properties are written in a syntax
@@ -151,6 +164,43 @@ public class Properties implements Serializable {
 	 * @throws IOException if an error occurs while writing
 	 */
 	public void store(OutputStream outputStream, String comments) throws IOException {
+		throw new UnsupportedOperationException("Not implemented"); // TODO
+	}
+
+	/**
+	 * Write the properties of this object to the given writer object.
+	 *
+	 * The properties are written in a syntax compatible with what the method
+	 * {@link load} accepts: any delimiter character in the key is escaped. No
+	 * whitespace is added around the delimiter, properties lines are not
+	 * wrapped at any length, and no blank lines or comments are output.
+	 *
+	 * @param writer The writer where to write
+	 *
+	 * @throws IOException if an error occurs while writing
+	 */
+	public void store(Writer writer) throws IOException {
+		throw new UnsupportedOperationException("Not implemented"); // TODO
+	}
+
+	/**
+	 * Write the properties of this object to the given writer object, preceded
+	 * with the given comment.
+	 *
+	 * The properties are written in a manner that the method {@link load}
+	 * would accept as input.
+	 *
+	 * If not null, the provided comments are output after a ASCII hash sign
+	 * and a single space character. If they consist of several lines (i.e. it
+	 * contains line separators), a hash sign and a space are output before
+	 * each comment line that does not start with a hash sign.
+	 *
+	 * @param outputStream The writer where to write
+	 * @param comments     The leading comments to output
+	 *
+	 * @throws IOException if an error occurs while writing
+	 */
+	public void store(Writer writer, String comments) throws IOException {
 		throw new UnsupportedOperationException("Not implemented"); // TODO
 	}
 
