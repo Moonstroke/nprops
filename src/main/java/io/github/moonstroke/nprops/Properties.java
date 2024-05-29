@@ -9,6 +9,8 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The programmatic interface to a text file where an application's properties
@@ -107,6 +109,8 @@ import java.nio.charset.StandardCharsets;
 public class Properties implements Serializable {
 
 	private static final long serialVersionUID = 8542475994347333139L;
+
+	private final Map<String, String> properties = new HashMap<>();
 
 
 	/**
