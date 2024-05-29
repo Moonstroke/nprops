@@ -224,7 +224,10 @@ public class Properties implements Serializable {
 	 * @param value The property value
 	 */
 	public void setProperty(String key, String value) {
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+		if (key == null) {
+			throw new NullPointerException("Cannot set null property");
+		}
+		properties.put(key, value);
 	}
 
 	/**
@@ -236,7 +239,7 @@ public class Properties implements Serializable {
 	 *         given key
 	 */
 	public String getProperty(String key) {
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+		return properties.get(key);
 	}
 
 	/**
@@ -250,6 +253,6 @@ public class Properties implements Serializable {
 	 *         the given key
 	 */
 	public String getProperty(String key, String defaultValue) {
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+		return properties.getOrDefault(key, defaultValue);
 	}
 }
