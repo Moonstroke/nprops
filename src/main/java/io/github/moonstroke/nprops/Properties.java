@@ -2,10 +2,13 @@ package io.github.moonstroke.nprops;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Serializable;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The programmatic interface to a text file where an application's properties
@@ -116,7 +119,7 @@ public class Properties implements Serializable {
 	 * @throws IOException if an error occurs while reading
 	 */
 	public void load(InputStream inputStream) throws IOException {
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+		load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
 	}
 
 	/**
@@ -144,7 +147,7 @@ public class Properties implements Serializable {
 	 * @throws IOException if an error occurs while writing
 	 */
 	public void store(OutputStream outputStream) throws IOException {
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+		store(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
 	}
 
 	/**
@@ -165,7 +168,7 @@ public class Properties implements Serializable {
 	 * @throws IOException if an error occurs while writing
 	 */
 	public void store(OutputStream outputStream, String comments) throws IOException {
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+		store(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), comments);
 	}
 
 	/**
