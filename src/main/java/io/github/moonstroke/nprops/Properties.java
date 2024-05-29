@@ -77,6 +77,7 @@ import java.util.Map;
  * definition is part of the property's value.
  * <p>
  * Here is an example of what a properties declaration looks like:
+ *
  * <pre>
  * <code>
  * projectName=NProps
