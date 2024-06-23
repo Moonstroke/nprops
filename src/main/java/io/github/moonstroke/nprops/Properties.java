@@ -146,6 +146,30 @@ public class Properties implements Serializable {
 	}
 
 	private void load(BufferedReader reader) throws IOException {
+		String line;
+		while ((line = reader.readLine()) != null) {
+			if (isWrapped(line)) {
+				unwrap(line, reader);
+			}
+			String key = extractKey(line);
+			String value = extractValue(line);
+			setProperty(key, value);
+		}
+	}
+
+	private boolean isWrapped(String line) {
+		throw new UnsupportedOperationException("Not implemented"); // TODO
+	}
+
+	private void unwrap(String line, BufferedReader reader) throws IOException {
+		throw new UnsupportedOperationException("Not implemented"); // TODO
+	}
+
+	private String extractKey(String line) {
+		throw new UnsupportedOperationException("Not implemented"); // TODO
+	}
+
+	private String extractValue(String line) {
 		throw new UnsupportedOperationException("Not implemented"); // TODO
 	}
 
