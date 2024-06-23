@@ -196,6 +196,39 @@ public class Properties implements Serializable {
 	}
 
 	private String extractKey(String line, int to) {
+		int from = skipLeadingWhitespace(line);
+		if (from == to) {
+			throw new IllegalStateException("Key cannot be empty");
+		}
+		StringBuilder key = new StringBuilder(to - from);
+		for (int i = from; i < to; ++i) {
+			char c = line.charAt(i);
+			if (c == '\\') {
+				++i;
+				/* No need to check if i < line.length, because the line has already been unwrapped */
+				c = unescape(line.charAt(i), true);
+			} else if (Character.isWhitespace(c)) {
+				/* Is this whitespace run at the end of the key? */
+				int lastWsCharIndex = i + 1;
+				while (Character.isWhitespace(line.charAt(lastWsCharIndex))) {
+					++lastWsCharIndex;
+				}
+				if (lastWsCharIndex == to) {
+					/* ... yes */
+					break;
+				} else {
+					/* ... no */
+					key.append(line, i, lastWsCharIndex);
+					i = lastWsCharIndex + 1;
+					continue;
+				}
+			}
+			key.append(c);
+		}
+		return key.toString();
+	}
+
+	private char unescape(char c, boolean inKey) {
 		throw new UnsupportedOperationException("Not implemented"); // TODO
 	}
 
