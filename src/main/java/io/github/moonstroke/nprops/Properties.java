@@ -149,7 +149,7 @@ public class Properties implements Serializable {
 		String line;
 		while ((line = reader.readLine()) != null) {
 			if (isWrapped(line)) {
-				unwrap(line, reader);
+				line = unwrap(line, reader);
 			}
 			String key = extractKey(line);
 			String value = extractValue(line);
@@ -166,7 +166,7 @@ public class Properties implements Serializable {
 		return trailingBackslashesCount % 2 == 1;
 	}
 
-	private void unwrap(String line, BufferedReader reader) throws IOException {
+	private String unwrap(String line, BufferedReader reader) throws IOException {
 		StringBuilder unwrappedLine = new StringBuilder();
 		/* Skip last character (line wrapping indicator) */
 		unwrappedLine.append(line, 0, line.length() - 1);
@@ -178,13 +178,12 @@ public class Properties implements Serializable {
 			int firstSignificantIndex = skipLeadingWhitespace(line);
 			if (isWrapped(line)) {
 				unwrappedLine.append(line, firstSignificantIndex, line.length() - 1);
-				continue;
 			} else {
 				unwrappedLine.append(line, firstSignificantIndex, line.length());
 				break;
 			}
 		} while (true);
-		line = unwrappedLine.toString();
+		return unwrappedLine.toString();
 	}
 
 	private int skipLeadingWhitespace(String line) {
