@@ -151,8 +151,9 @@ public class Properties implements Serializable {
 			if (isWrapped(line)) {
 				line = unwrap(line, reader);
 			}
-			String key = extractKey(line);
-			String value = extractValue(line);
+			int delimiterIndex = line.indexOf('=');
+			String key = extractKey(line, delimiterIndex);
+			String value = extractValue(line, delimiterIndex);
 			setProperty(key, value);
 		}
 	}
@@ -194,11 +195,11 @@ public class Properties implements Serializable {
 		return firstNonWsCharIndex;
 	}
 
-	private String extractKey(String line) {
+	private String extractKey(String line, int to) {
 		throw new UnsupportedOperationException("Not implemented"); // TODO
 	}
 
-	private String extractValue(String line) {
+	private String extractValue(String line, int from) {
 		throw new UnsupportedOperationException("Not implemented"); // TODO
 	}
 
