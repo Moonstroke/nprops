@@ -1,5 +1,6 @@
 package io.github.moonstroke.nprops;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -135,6 +136,16 @@ public class Properties implements Serializable {
 	 * @throws IOException if an error occurs when reading
 	 */
 	public void load(Reader reader) throws IOException {
+		BufferedReader br;
+		if (reader instanceof BufferedReader) {
+			br = (BufferedReader) reader;
+		} else {
+			br = new BufferedReader(reader);
+		}
+		load(br);
+	}
+
+	private void load(BufferedReader reader) throws IOException {
 		throw new UnsupportedOperationException("Not implemented"); // TODO
 	}
 
