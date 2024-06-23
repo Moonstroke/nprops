@@ -194,6 +194,14 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
+	void testLoadFailsOnBackslashBeforeEof() {
+		/* property file is:
+		 * foo = bar\
+		 */
+		assertThrows(IllegalStateException.class, () -> loadFromString("foo = bar\\"));
+	}
+
+	@Test
 	void testLoadIgnoresHashComments() {
 		/* property file is:
 		 * foo = bar
