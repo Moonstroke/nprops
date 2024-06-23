@@ -158,7 +158,12 @@ public class Properties implements Serializable {
 	}
 
 	private boolean isWrapped(String line) {
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+		int trailingBackslashesCount = 0;
+		while (line.charAt(line.length() - 1 - trailingBackslashesCount) == '\\') {
+			++trailingBackslashesCount;
+		}
+		/* Return true if the last backslash is not escaped */
+		return trailingBackslashesCount % 2 == 1;
 	}
 
 	private void unwrap(String line, BufferedReader reader) throws IOException {
