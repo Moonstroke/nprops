@@ -188,7 +188,11 @@ public class Properties implements Serializable {
 	}
 
 	private int skipLeadingWhitespace(String line) {
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+		int firstNonWsCharIndex = 0;
+		while (Character.isWhitespace(line.charAt(firstNonWsCharIndex))) {
+			++firstNonWsCharIndex;
+		}
+		return firstNonWsCharIndex;
 	}
 
 	private String extractKey(String line) {
