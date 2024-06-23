@@ -221,11 +221,13 @@ public class Properties implements Serializable {
 	 * @throws IOException if an error occurs while writing
 	 */
 	public void store(Writer writer, String comments) throws IOException {
-		for (String comment : comments.split("\\r?\\n")) {
-			if (comment.charAt(0) != '#') {
-				writer.write("# ");
+		for (String comment : comments.split("\\r?\\n", -1)) {
+			if (!comment.isEmpty()) {
+				if (comment.charAt(0) != '#') {
+					writer.write("# ");
+				}
+				writer.write(comment);
 			}
-			writer.write(comment);
 			writer.write(System.lineSeparator());
 		}
 		store(writer);
