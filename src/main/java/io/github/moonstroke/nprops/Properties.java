@@ -167,6 +167,27 @@ public class Properties implements Serializable {
 	}
 
 	private void unwrap(String line, BufferedReader reader) throws IOException {
+		StringBuilder unwrappedLine = new StringBuilder();
+		/* Skip last character (line wrapping indicator) */
+		unwrappedLine.append(line, 0, line.length() - 1);
+		do {
+			line = reader.readLine();
+			if (line == null) {
+				throw new IllegalStateException("Last line cannot be wrapped");
+			}
+			int firstSignificantIndex = skipLeadingWhitespace(line);
+			if (isWrapped(line)) {
+				unwrappedLine.append(line, firstSignificantIndex, line.length() - 1);
+				continue;
+			} else {
+				unwrappedLine.append(line, firstSignificantIndex, line.length());
+				break;
+			}
+		} while (true);
+		line = unwrappedLine.toString();
+	}
+
+	private int skipLeadingWhitespace(String line) {
 		throw new UnsupportedOperationException("Not implemented"); // TODO
 	}
 
