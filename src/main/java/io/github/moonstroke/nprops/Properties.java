@@ -158,7 +158,7 @@ public class Properties implements Serializable {
 			}
 			int delimiterIndex = line.indexOf('=');
 			String key = extractKey(line, delimiterIndex);
-			String value = extractValue(line, delimiterIndex);
+			String value = extractValue(line, delimiterIndex + 1);
 			setProperty(key, value);
 		}
 	}
