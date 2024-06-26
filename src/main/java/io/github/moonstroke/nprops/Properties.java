@@ -206,7 +206,9 @@ public class Properties implements Serializable {
 			throw new IllegalStateException("Key cannot be empty");
 		}
 		StringBuilder key = new StringBuilder(to - from);
-		for (int i = from; i < to; ++i) {
+		int i = from;
+		/* while, not for, so that the increment is not performed when continue is hit */
+		while (i < to) {
 			char c = line.charAt(i);
 			if (c == '\\') {
 				++i;
@@ -214,21 +216,22 @@ public class Properties implements Serializable {
 				c = unescape(line.charAt(i), true);
 			} else if (Character.isWhitespace(c)) {
 				/* Is this whitespace run at the end of the key? */
-				int lastWsCharIndex = i + 1;
-				while (Character.isWhitespace(line.charAt(lastWsCharIndex))) {
-					++lastWsCharIndex;
+				int firstCharNotWsIndex = i + 1;
+				while (Character.isWhitespace(line.charAt(firstCharNotWsIndex))) {
+					++firstCharNotWsIndex;
 				}
-				if (lastWsCharIndex == to) {
+				if (firstCharNotWsIndex == to) {
 					/* ... yes */
 					break;
 				} else {
 					/* ... no */
-					key.append(line, i, lastWsCharIndex);
-					i = lastWsCharIndex + 1;
+					key.append(line, i, firstCharNotWsIndex);
+					i = firstCharNotWsIndex;
 					continue;
 				}
 			}
 			key.append(c);
+			++i;
 		}
 		return key.toString();
 	}
