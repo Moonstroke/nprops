@@ -161,6 +161,12 @@ public class Properties implements Serializable {
 			do {
 				delimiterIndex = line.indexOf('=', delimiterIndex + 1);
 			} while (delimiterIndex > 0 && line.charAt(delimiterIndex - 1) == '\\');
+			if (delimiterIndex == 0) {
+				throw new IllegalStateException("Key cannot be empty");
+			}
+			if (delimiterIndex < 0) {
+				throw new IllegalStateException("Missing delimiter");
+			}
 			String key = extractKey(line, delimiterIndex);
 			String value = extractValue(line, delimiterIndex + 1);
 			setProperty(key, value);
