@@ -148,6 +148,11 @@ public class Properties implements Serializable {
 	private void load(BufferedReader reader) throws IOException {
 		String line;
 		while ((line = reader.readLine()) != null) {
+			int firstSignificantIndex = skipLeadingWhitespace(line);
+			if (line.charAt(firstSignificantIndex) == '#') {
+				/* Comment line: ignore */
+				 continue;
+			}
 			if (isWrapped(line)) {
 				line = unwrap(line, reader);
 			}
