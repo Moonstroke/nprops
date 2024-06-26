@@ -157,17 +157,17 @@ public class Properties implements Serializable {
 				line = unwrap(line, reader);
 			}
 			/* Extract delimiter: skip escaped equals signs (they are part of the key) */
-			int delimiterIndex = -1;
+			int delimiterIndex = firstSignificantIndex - 1;
 			do {
 				delimiterIndex = line.indexOf('=', delimiterIndex + 1);
 			} while (delimiterIndex > 0 && line.charAt(delimiterIndex - 1) == '\\');
-			if (delimiterIndex == 0) {
+			if (delimiterIndex == firstSignificantIndex) {
 				throw new IllegalStateException("Key cannot be empty");
 			}
 			if (delimiterIndex < 0) {
 				throw new IllegalStateException("Missing delimiter");
 			}
-			String key = extractKey(line, delimiterIndex);
+			String key = extractKey(line, firstSignificantIndex, delimiterIndex);
 			String value = extractValue(line, delimiterIndex + 1);
 			setProperty(key, value);
 		}
@@ -210,11 +210,7 @@ public class Properties implements Serializable {
 		return firstNonWsCharIndex;
 	}
 
-	private String extractKey(String line, int to) {
-		int from = skipLeadingWhitespace(line);
-		if (from == to) {
-			throw new IllegalStateException("Key cannot be empty");
-		}
+	private String extractKey(String line, int from, int to) {
 		StringBuilder key = new StringBuilder(to - from);
 		int i = from;
 		/* while, not for, so that the increment is not performed when continue is hit */
