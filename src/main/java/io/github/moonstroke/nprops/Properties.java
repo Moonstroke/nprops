@@ -156,7 +156,11 @@ public class Properties implements Serializable {
 			if (isWrapped(line)) {
 				line = unwrap(line, reader);
 			}
-			int delimiterIndex = line.indexOf('=');
+			/* Extract delimiter: skip escaped equals signs (they are part of the key) */
+			int delimiterIndex = -1;
+			do {
+				delimiterIndex = line.indexOf('=', delimiterIndex + 1);
+			} while (delimiterIndex > 0 && line.charAt(delimiterIndex - 1) == '\\');
 			String key = extractKey(line, delimiterIndex);
 			String value = extractValue(line, delimiterIndex + 1);
 			setProperty(key, value);
