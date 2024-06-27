@@ -219,7 +219,7 @@ public class Properties implements Serializable {
 			if (c == '\\') {
 				++i;
 				/* No need to check if i < line.length, because the line has already been unwrapped */
-				c = unescape(line.charAt(i), true);
+				c = unescape(line.charAt(i));
 			} else if (Character.isWhitespace(c)) {
 				/* Is this whitespace run at the end of the key? */
 				int firstCharNotWsIndex = i + 1;
@@ -242,8 +242,27 @@ public class Properties implements Serializable {
 		return key.toString();
 	}
 
-	private char unescape(char c, boolean inKey) {
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+	private char unescape(char c) {
+		switch (c) {
+		case 'f':
+			return '\f';
+		case 'n':
+			return '\n';
+		case 'r':
+			return '\r';
+		case 't':
+			return '\t';
+		case '0':
+			return '\0';
+		case '\\':
+		case ' ':
+		case '\'':
+		case '"':
+		case '=':
+		case ':':
+			return c;
+		}
+		throw new IllegalStateException("Invalid escape sequence: \\" + c);
 	}
 
 	private String extractValue(String line, int from) {
