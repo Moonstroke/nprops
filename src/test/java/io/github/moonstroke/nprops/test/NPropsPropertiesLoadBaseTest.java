@@ -242,6 +242,6 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 
 	@Test
 	void testLoadFailsOnOctalSequence() {
-		assertThrows(IllegalStateException.class, () -> loadFromString("foo = b\\061r"));
+		assertThrows(IllegalStateException.class, () -> loadFromString("foo = b\\161r"));
 	}
 }
