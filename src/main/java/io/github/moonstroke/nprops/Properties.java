@@ -266,7 +266,10 @@ public class Properties implements Serializable {
 	}
 
 	private String extractValue(String line, int from) {
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+		while (Character.isWhitespace(line.charAt(from))) {
+			++from;
+		}
+		return extractKey(line, from, line.length());
 	}
 
 	/**
