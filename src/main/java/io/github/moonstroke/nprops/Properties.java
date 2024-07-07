@@ -156,7 +156,7 @@ public class Properties implements Serializable {
 			int firstSignificantIndex = skipWhitespaceFrom(line, 0);
 			if (line.charAt(firstSignificantIndex) == '#') {
 				/* Comment line: ignore */
-				 continue;
+				continue;
 			}
 			if (isWrapped(line)) {
 				line = unwrap(line, reader);
@@ -216,7 +216,7 @@ public class Properties implements Serializable {
 	}
 
 	private String extractComponent(String line, int from, int to) {
-		StringBuilder key = new StringBuilder(to - from);
+		StringBuilder component = new StringBuilder(to - from);
 		int i = from;
 		/* while, not for, so that the increment is not performed when continue is hit */
 		while (i < to) {
@@ -227,24 +227,21 @@ public class Properties implements Serializable {
 				c = unescape(line.charAt(i));
 			} else if (Character.isWhitespace(c)) {
 				/* Is this whitespace run at the end of the key? */
-				int firstCharNotWsIndex = i + 1;
-				while (Character.isWhitespace(line.charAt(firstCharNotWsIndex))) {
-					++firstCharNotWsIndex;
-				}
+				int firstCharNotWsIndex = skipWhitespaceFrom(line, i + 1);
 				if (firstCharNotWsIndex == to) {
 					/* ... yes */
 					break;
 				} else {
 					/* ... no */
-					key.append(line, i, firstCharNotWsIndex);
+					component.append(line, i, firstCharNotWsIndex);
 					i = firstCharNotWsIndex;
 					continue;
 				}
 			}
-			key.append(c);
+			component.append(c);
 			++i;
 		}
-		return key.toString();
+		return component.toString();
 	}
 
 	private char unescape(char c) {
