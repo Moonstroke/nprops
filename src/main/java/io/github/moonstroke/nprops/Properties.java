@@ -178,7 +178,7 @@ public class Properties implements Serializable {
 		}
 	}
 
-	private boolean isWrapped(String line) {
+	private static boolean isWrapped(String line) {
 		int trailingBackslashesCount = 0;
 		while (line.charAt(line.length() - 1 - trailingBackslashesCount) == '\\') {
 			++trailingBackslashesCount;
@@ -208,7 +208,7 @@ public class Properties implements Serializable {
 		return unwrappedLine.toString();
 	}
 
-	private int skipWhitespaceFrom(String line, int index) {
+	private static int skipWhitespaceFrom(String line, int index) {
 		while (Character.isWhitespace(line.charAt(index))) {
 			++index;
 		}
