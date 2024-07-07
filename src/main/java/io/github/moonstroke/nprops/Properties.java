@@ -167,10 +167,10 @@ public class Properties implements Serializable {
 				delimiterIndex = line.indexOf('=', delimiterIndex + 1);
 			} while (delimiterIndex > 0 && line.charAt(delimiterIndex - 1) == '\\');
 			if (delimiterIndex == firstSignificantIndex) {
-				throw new IllegalStateException("Key cannot be empty");
+				throw new IllegalStateException("Line " + lineNumber + ": key cannot be empty");
 			}
 			if (delimiterIndex < 0) {
-				throw new IllegalStateException("Missing delimiter");
+				throw new IllegalStateException("Line " + lineNumber + ": missing delimiter");
 			}
 			String key = extractComponent(line, firstSignificantIndex, delimiterIndex);
 			String value = extractComponent(line, skipWhitespaceFrom(line, delimiterIndex + 1), line.length());
@@ -194,7 +194,7 @@ public class Properties implements Serializable {
 		do {
 			line = reader.readLine();
 			if (line == null) {
-				throw new IllegalStateException("Last line cannot be wrapped");
+				throw new IllegalStateException("Line " + lineNumber + ": last line cannot be wrapped");
 			}
 			++lineNumber;
 			int firstSignificantIndex = skipWhitespaceFrom(line, 0);
@@ -267,7 +267,7 @@ public class Properties implements Serializable {
 		case ':':
 			return c;
 		}
-		throw new IllegalStateException("Invalid escape sequence: \\" + c);
+		throw new IllegalStateException("Line " + lineNumber + ": invalid escape sequence: \\" + c);
 	}
 
 	/**
