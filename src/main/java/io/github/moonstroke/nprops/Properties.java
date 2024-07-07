@@ -114,6 +114,9 @@ public class Properties implements Serializable {
 
 	private final Map<String, String> properties = new HashMap<>();
 
+	/* To be displayed in error messages */
+	private transient int lineNumber;
+
 
 	/**
 	 * Load properties from the given input stream into this object.
@@ -147,7 +150,9 @@ public class Properties implements Serializable {
 
 	private void load(BufferedReader reader) throws IOException {
 		String line;
+		lineNumber = 0;
 		while ((line = reader.readLine()) != null) {
+			++lineNumber;
 			int firstSignificantIndex = skipWhitespaceFrom(line, 0);
 			if (line.charAt(firstSignificantIndex) == '#') {
 				/* Comment line: ignore */
@@ -191,6 +196,7 @@ public class Properties implements Serializable {
 			if (line == null) {
 				throw new IllegalStateException("Last line cannot be wrapped");
 			}
+			++lineNumber;
 			int firstSignificantIndex = skipWhitespaceFrom(line, 0);
 			if (isWrapped(line)) {
 				unwrappedLine.append(line, firstSignificantIndex, line.length() - 1);
