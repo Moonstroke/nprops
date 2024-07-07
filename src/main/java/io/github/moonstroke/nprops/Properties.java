@@ -148,7 +148,7 @@ public class Properties implements Serializable {
 	private void load(BufferedReader reader) throws IOException {
 		String line;
 		while ((line = reader.readLine()) != null) {
-			int firstSignificantIndex = skipLeadingWhitespace(line);
+			int firstSignificantIndex = skipWhitespaceFrom(line, 0);
 			if (line.charAt(firstSignificantIndex) == '#') {
 				/* Comment line: ignore */
 				 continue;
@@ -167,8 +167,8 @@ public class Properties implements Serializable {
 			if (delimiterIndex < 0) {
 				throw new IllegalStateException("Missing delimiter");
 			}
-			String key = extractKey(line, firstSignificantIndex, delimiterIndex);
-			String value = extractValue(line, delimiterIndex + 1);
+			String key = extractComponent(line, firstSignificantIndex, delimiterIndex);
+			String value = extractComponent(line, skipWhitespaceFrom(line, delimiterIndex + 1), line.length());
 			setProperty(key, value);
 		}
 	}
@@ -191,7 +191,7 @@ public class Properties implements Serializable {
 			if (line == null) {
 				throw new IllegalStateException("Last line cannot be wrapped");
 			}
-			int firstSignificantIndex = skipLeadingWhitespace(line);
+			int firstSignificantIndex = skipWhitespaceFrom(line, 0);
 			if (isWrapped(line)) {
 				unwrappedLine.append(line, firstSignificantIndex, line.length() - 1);
 			} else {
@@ -202,15 +202,14 @@ public class Properties implements Serializable {
 		return unwrappedLine.toString();
 	}
 
-	private int skipLeadingWhitespace(String line) {
-		int firstNonWsCharIndex = 0;
-		while (Character.isWhitespace(line.charAt(firstNonWsCharIndex))) {
-			++firstNonWsCharIndex;
+	private int skipWhitespaceFrom(String line, int index) {
+		while (Character.isWhitespace(line.charAt(index))) {
+			++index;
 		}
-		return firstNonWsCharIndex;
+		return index;
 	}
 
-	private String extractKey(String line, int from, int to) {
+	private String extractComponent(String line, int from, int to) {
 		StringBuilder key = new StringBuilder(to - from);
 		int i = from;
 		/* while, not for, so that the increment is not performed when continue is hit */
@@ -263,13 +262,6 @@ public class Properties implements Serializable {
 			return c;
 		}
 		throw new IllegalStateException("Invalid escape sequence: \\" + c);
-	}
-
-	private String extractValue(String line, int from) {
-		while (Character.isWhitespace(line.charAt(from))) {
-			++from;
-		}
-		return extractKey(line, from, line.length());
 	}
 
 	/**
