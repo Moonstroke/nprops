@@ -154,8 +154,8 @@ public class Properties implements Serializable {
 		while ((line = reader.readLine()) != null) {
 			++lineNumber;
 			int firstSignificantIndex = skipWhitespaceFrom(line, 0);
-			if (line.charAt(firstSignificantIndex) == '#') {
-				/* Comment line: ignore */
+			if (firstSignificantIndex < 0 || line.charAt(firstSignificantIndex) == '#') {
+				/* Blank-only or comment line: ignore */
 				continue;
 			}
 			if (isWrapped(line)) {
@@ -173,7 +173,13 @@ public class Properties implements Serializable {
 				throw new IllegalStateException("Line " + lineNumber + ": missing delimiter");
 			}
 			String key = extractComponent(line, firstSignificantIndex, delimiterIndex);
-			String value = extractComponent(line, skipWhitespaceFrom(line, delimiterIndex + 1), line.length());
+			int firstSignificantValueIndex = skipWhitespaceFrom(line, delimiterIndex + 1);
+			String value;
+			if (firstSignificantValueIndex < 0) {
+				value = "";
+			} else {
+				value = extractComponent(line, firstSignificantValueIndex, line.length());
+			}
 			setProperty(key, value);
 		}
 	}
@@ -211,6 +217,9 @@ public class Properties implements Serializable {
 	private static int skipWhitespaceFrom(String line, int index) {
 		while (Character.isWhitespace(line.charAt(index))) {
 			++index;
+			if (index == line.length()) {
+				return -1;
+			}
 		}
 		return index;
 	}
@@ -228,7 +237,7 @@ public class Properties implements Serializable {
 			} else if (Character.isWhitespace(c)) {
 				/* Is this whitespace run at the end of the key? */
 				int firstCharNotWsIndex = skipWhitespaceFrom(line, i + 1);
-				if (firstCharNotWsIndex == to) {
+				if (firstCharNotWsIndex < 0 || firstCharNotWsIndex == to) {
 					/* ... yes */
 					break;
 				} else {
