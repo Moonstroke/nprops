@@ -24,6 +24,16 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
+	void loadDoesNothingOnEmptyInput() {
+		loadFromString("");
+	}
+
+	@Test
+	void loadDoesNothingOnBlankInput() {
+		loadFromString("  \t  \n \t  \r\n  ");
+	}
+	
+	@Test
 	void testLoadFailsWithoutDelimiter() {
 		assertThrows(IllegalStateException.class, () -> loadFromString("foo"));
 	}
