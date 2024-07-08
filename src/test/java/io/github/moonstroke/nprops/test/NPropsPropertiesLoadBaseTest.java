@@ -19,7 +19,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 
 	@Test
 	void testLoadIgnoresSurroundingWhitespace() {
-		loadFromString("\tfoo = bar\n");
+		loadFromString("\tfoo = bar  \n");
 		assertEquals(properties.getProperty("foo"), "bar");
 	}
 
