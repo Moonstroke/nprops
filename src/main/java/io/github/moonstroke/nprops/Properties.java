@@ -235,17 +235,19 @@ public class Properties implements Serializable {
 				/* No need to check if i < line.length, because the line has already been unwrapped */
 				c = unescape(line.charAt(i));
 			} else if (Character.isWhitespace(c)) {
-				/* Is this whitespace run at the end of the key? */
+				/* Is this whitespace run at the end of the requested range? */
 				int firstCharNotWsIndex = skipWhitespaceFrom(line, i + 1);
 				if (firstCharNotWsIndex < 0 || firstCharNotWsIndex == to) {
-					/* ... yes */
+					/* ... yes: we are done processing the line. */
 					break;
 				} else {
-					/* ... no */
+					/* ... no: the whitespace must not be discarded */
 					component.append(line, i, firstCharNotWsIndex);
 					i = firstCharNotWsIndex;
 					continue;
 				}
+				/* Note that firstCharNotWsIndex is never greater than to (because the value passed for it is either the
+				 * length of the string or the index of the delimiter) so we don't have to check this case */
 			}
 			component.append(c);
 			++i;
