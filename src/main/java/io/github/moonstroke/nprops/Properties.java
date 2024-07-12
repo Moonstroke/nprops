@@ -329,7 +329,12 @@ public class Properties implements Serializable {
 	 * @throws IOException if an error occurs while writing
 	 */
 	public void store(Writer writer) throws IOException {
-		throw new UnsupportedOperationException("Not implemented"); // TODO
+		for (Map.Entry<String, String> property : properties.entrySet()) {
+			writer.write(property.getKey());
+			writer.write('=');
+			writer.write(property.getValue());
+			writer.write(System.lineSeparator());
+		}
 	}
 
 	/**
