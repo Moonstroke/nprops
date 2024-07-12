@@ -335,6 +335,7 @@ public class Properties implements Serializable {
 			writer.write(property.getValue());
 			writer.write(System.lineSeparator());
 		}
+		writer.flush();
 	}
 
 	/**
