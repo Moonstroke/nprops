@@ -20,7 +20,7 @@ abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 	void testStoreAddsNoSpacesAroundDelimiters() {
 		properties.setProperty("foo", "bar");
 		String stored = storeToString();
-		assertEquals(stored, "foo=bar" + EOL);
+		assertEquals("foo=bar" + EOL, stored);
 	}
 
 	@Test
@@ -32,7 +32,7 @@ abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString();
-		assertEquals(stored, "foo=bar" + EOL + "baz=quux" + EOL);
+		assertEquals("foo=bar" + EOL + "baz=quux" + EOL, stored);
 	}
 
 	@Test
@@ -44,7 +44,7 @@ abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString(null);
-		assertEquals(stored, "foo=bar" + EOL + "baz=quux" + EOL);
+		assertEquals("foo=bar" + EOL + "baz=quux" + EOL, stored);
 	}
 
 	@Test
@@ -57,7 +57,7 @@ abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString("comments");
-		assertEquals(stored, "# comments" + EOL + "foo=bar" + EOL + "baz=quux" + EOL);
+		assertEquals("# comments" + EOL + "foo=bar" + EOL + "baz=quux" + EOL, stored);
 	}
 
 	@Test
@@ -74,7 +74,7 @@ abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 			fail(e);
 		}
 		String stored = storeToString("comments");
-		assertEquals(stored, "# comments" + EOL + "foo=bar" + EOL + "baz=quux" + EOL);
+		assertEquals("# comments" + EOL + "foo=bar" + EOL + "baz=quux" + EOL, stored);
 	}
 
 	@Test
@@ -85,7 +85,7 @@ abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 		 */
 		properties.setProperty("foo bar ", "\tbaz\r\nquux ");
 		String stored = storeToString("comments");
-		assertEquals(stored, "# comments" + EOL + "foo bar\\ =\\tbaz\\r\\nquux\\ " + EOL);
+		assertEquals("# comments" + EOL + "foo bar\\ =\\tbaz\\r\\nquux\\ " + EOL, stored);
 	}
 
 	@Test
@@ -99,7 +99,7 @@ abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString("multi-line\ncomments");
-		assertEquals(stored, "# multi-line" + EOL + "# comments" + EOL + "foo=bar" + EOL + "baz=quux" + EOL);
+		assertEquals("# multi-line" + EOL + "# comments" + EOL + "foo=bar" + EOL + "baz=quux" + EOL, stored);
 	}
 
 	@Test
@@ -114,8 +114,8 @@ abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 		properties.setProperty("foo", "bar");
 		properties.setProperty("baz", "quux");
 		String stored = storeToString("multi-line\ncomments\n#with lines\n#already commented");
-		assertEquals(stored, "# multi-line" + EOL + "# comments" + EOL + "#with lines" + EOL + "#already commented"
-		                     + EOL + "foo=bar" + EOL + "baz=quux" + EOL);
+		assertEquals("# multi-line" + EOL + "# comments" + EOL + "#with lines" + EOL + "#already commented"
+		                     + EOL + "foo=bar" + EOL + "baz=quux" + EOL, stored);
 	}
 
 	// TODO

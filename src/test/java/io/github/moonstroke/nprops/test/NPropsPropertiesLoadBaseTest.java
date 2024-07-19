@@ -14,13 +14,13 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 	@Test
 	void testLoadOnePropertySucceeds() {
 		loadFromString("foo=bar");
-		assertEquals(properties.getProperty("foo"), "bar");
+		assertEquals("bar", properties.getProperty("foo"));
 	}
 
 	@Test
 	void testLoadIgnoresSurroundingWhitespace() {
 		loadFromString("\tfoo = bar  \n");
-		assertEquals(properties.getProperty("foo"), "bar");
+		assertEquals("bar", properties.getProperty("foo"));
 	}
 
 	@Test
@@ -49,7 +49,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 * foo = bar\nbaz
 		 */
 		loadFromString("foo = bar\\nbaz");
-		assertEquals(properties.getProperty("foo"), "bar\nbaz");
+		assertEquals("bar\nbaz", properties.getProperty("foo"));
 	}
 
 	@Test
@@ -58,7 +58,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 * foo = bar\rbaz
 		 */
 		loadFromString("foo = bar\\rbaz");
-		assertEquals(properties.getProperty("foo"), "bar\rbaz");
+		assertEquals("bar\rbaz", properties.getProperty("foo"));
 	}
 
 	@Test
@@ -67,7 +67,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 * foo = bar\tbaz
 		 */
 		loadFromString("foo = bar\\tbaz");
-		assertEquals(properties.getProperty("foo"), "bar\tbaz");
+		assertEquals("bar\tbaz", properties.getProperty("foo"));
 	}
 
 	@Test
@@ -76,7 +76,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 * foo = bar\fbaz
 		 */
 		loadFromString("foo = bar\\fbaz");
-		assertEquals(properties.getProperty("foo"), "bar\fbaz");
+		assertEquals("bar\fbaz", properties.getProperty("foo"));
 	}
 
 	@Test
@@ -85,7 +85,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 * foo = bar\0baz
 		 */
 		loadFromString("foo = bar\\0baz");
-		assertEquals(properties.getProperty("foo"), "bar\0baz");
+		assertEquals("bar\0baz", properties.getProperty("foo"));
 	}
 
 	@Test
@@ -94,7 +94,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 * foo = bar\\baz
 		 */
 		loadFromString("foo = bar\\\\baz");
-		assertEquals(properties.getProperty("foo"), "bar\\baz");
+		assertEquals("bar\\baz", properties.getProperty("foo"));
 	}
 
 	@Test
@@ -113,7 +113,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 * f\'o\"o = bar
 		 */
 		loadFromString("f\\'o\\\"o = bar");
-		assertEquals(properties.getProperty("f'o\"o"), "bar");
+		assertEquals("bar", properties.getProperty("f'o\"o"));
 	}
 
 	@Test
@@ -132,7 +132,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 */
 		loadFromString("foo \\= bar=baz");
 		assertNull(properties.getProperty("foo"));
-		assertEquals(properties.getProperty("foo = bar"), "baz");
+		assertEquals("baz", properties.getProperty("foo = bar"));
 	}
 
 	@Test
@@ -142,7 +142,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 */
 		loadFromString("foo \\: bar=baz");
 		assertNull(properties.getProperty("foo"));
-		assertEquals(properties.getProperty("foo : bar"), "baz");
+		assertEquals("baz", properties.getProperty("foo : bar"));
 	}
 
 	@Test
@@ -151,7 +151,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 * foo = bar\=baz
 		 */
 		loadFromString("foo = bar\\=baz");
-		assertEquals(properties.getProperty("foo"), "bar=baz");
+		assertEquals("bar=baz", properties.getProperty("foo"));
 	}
 
 	@Test
@@ -160,7 +160,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 * foo = bar\:baz
 		 */
 		loadFromString("foo = bar\\:baz");
-		assertEquals(properties.getProperty("foo"), "bar:baz");
+		assertEquals("bar:baz", properties.getProperty("foo"));
 	}
 
 	@Test
@@ -169,7 +169,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 * foo\ bar = baz
 		 */
 		loadFromString("foo\\ bar = baz");
-		assertEquals(properties.getProperty("foo bar"), "baz");
+		assertEquals("baz", properties.getProperty("foo bar"));
 	}
 
 	@Test
@@ -178,7 +178,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 * foo = \ bar\ [trailing space]
 		 */
 		loadFromString("foo = \\ bar\\ ");
-		assertEquals(properties.getProperty("foo"), " bar ");
+		assertEquals(" bar ", properties.getProperty("foo"));
 	}
 
 	@Test
@@ -188,7 +188,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 *    other = property
 		 */
 		loadFromString("foo = bar \\\n   other = property");
-		assertEquals(properties.getProperty("foo"), "bar other = property");
+		assertEquals("bar other = property", properties.getProperty("foo"));
 		assertEquals(properties.getProperty("other"), null);
 	}
 
@@ -199,8 +199,8 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 *    other = property
 		 */
 		loadFromString("foo = bar \\\\\n   other = property");
-		assertEquals(properties.getProperty("foo"), "bar \\");
-		assertEquals(properties.getProperty("other"), "property");
+		assertEquals("bar \\", properties.getProperty("foo"));
+		assertEquals("property", properties.getProperty("other"));
 	}
 
 	@Test
@@ -219,8 +219,8 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		 * baz = quux
 		 */
 		loadFromString("foo = bar\n# comment\nbaz = quux");
-		assertEquals(properties.getProperty("foo"), "bar");
-		assertEquals(properties.getProperty("baz"), "quux");
+		assertEquals("bar", properties.getProperty("foo"));
+		assertEquals("quux", properties.getProperty("baz"));
 	}
 
 	@Test
@@ -240,7 +240,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 	@Test
 	void testLoadHasNoInlineComments() {
 		loadFromString("foo = bar # not a comment");
-		assertEquals(properties.getProperty("foo"), "bar # not a comment");
+		assertEquals("bar # not a comment", properties.getProperty("foo"));
 	}
 
 	/* Special cases of non-handled escape sequence: */
