@@ -13,7 +13,7 @@ class NPropsPropertiesSetPropertyTest extends BaseNpropsPropertiesTest {
 		String key = "key";
 		String originalValue = "original value";
 		properties.setProperty(key, originalValue);
-		assertEquals(properties.getProperty(key), originalValue);
+		assertEquals(originalValue, properties.getProperty(key));
 	}
 
 	@Test
@@ -36,6 +36,6 @@ class NPropsPropertiesSetPropertyTest extends BaseNpropsPropertiesTest {
 		properties.setProperty(key, "initial value");
 		String newValue = "new value";
 		properties.setProperty(key, newValue);
-		assertEquals(properties.getProperty(key), newValue);
+		assertEquals(newValue, properties.getProperty(key));
 	}
 }
