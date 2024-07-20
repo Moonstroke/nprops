@@ -22,6 +22,11 @@ class NPropsPropertiesSetPropertyTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
+	void testSetPropertyEmptyKeyFails() {
+		assertThrows(IllegalArgumentException.class, () -> properties.setProperty("", "value"));
+	}
+
+	@Test
 	void testSetPropertyNullValueRemovesProperty() {
 		String key = "key";
 		String originalValue = "original value";
