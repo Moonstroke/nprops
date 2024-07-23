@@ -374,12 +374,18 @@ public class Properties implements Serializable {
 	/**
 	 * Set the property of given key to the given value.
 	 *
-	 * Property keys and values cannot be null. Passing The method fails if a null
+	 * Property keys and values cannot be null. The method fails if a null
 	 * value is passed for the key; if for the value, this method removes the
 	 * property.
+	 * There are additional constraints on the key: it cannot be empty, start or end with a space character, or contain
+	 * control characters. Spaces within the key (e.g. the key is a natural-language word group), are however accepted.
 	 *
 	 * @param key   The property key (not {@code null})
 	 * @param value The property value
+	 *
+	 * @throws NullPointerException     iff key is {@code null}
+	 * @throws IllegalArgumentException iff the key is invalid (empty, starts or ends with a space or contains control
+	 *                                  chars)
 	 */
 	public void setProperty(String key, String value) {
 		if (key == null) {
