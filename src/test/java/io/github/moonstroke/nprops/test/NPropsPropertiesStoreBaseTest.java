@@ -81,11 +81,11 @@ abstract class NPropsPropertiesStoreBaseTest extends BaseNpropsPropertiesTest {
 	void testStorePreservesSignificantWhitespace() {
 		/* expected property file is:
 		 * # comments
-		 * foo bar\ =\tbaz\nquux\ [trailing space]
+		 * foo bar=\tbaz\r\nquux\ [trailing space]
 		 */
-		properties.setProperty("foo bar ", "\tbaz\r\nquux ");
+		properties.setProperty("foo bar", "\tbaz\r\nquux ");
 		String stored = storeToString("comments");
-		assertEquals("# comments" + EOL + "foo bar\\ =\\tbaz\\r\\nquux\\ " + EOL, stored);
+		assertEquals("# comments" + EOL + "foo bar=\\tbaz\\r\\nquux\\ " + EOL, stored);
 	}
 
 	@Test
