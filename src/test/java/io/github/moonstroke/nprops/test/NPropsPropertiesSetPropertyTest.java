@@ -27,6 +27,44 @@ class NPropsPropertiesSetPropertyTest extends BaseNpropsPropertiesTest {
 	}
 
 	@Test
+	void testSetPropertyFailsWithLeadingWhiteSpaceInKey() {
+		assertThrows(IllegalArgumentException.class, () -> properties.setProperty(" keywithleadingspace", "value"));
+	}
+
+	@Test
+	void testSetPropertyFailsWithTrailingWhiteSpaceInKey() {
+		assertThrows(IllegalArgumentException.class, () -> properties.setProperty("keywithtrailingspace ", "value"));
+	}
+
+	@Test
+	void testSetPropertyFailsWithAsciiNulInKey() {
+		assertThrows(IllegalArgumentException.class, () -> properties.setProperty("keywith\0byte", "value"));
+	}
+
+	@Test
+	void testSetPropertyFailsWithLFInKey() {
+		assertThrows(IllegalArgumentException.class, () -> properties.setProperty("keywith\nlinebreak", "value"));
+	}
+
+	@Test
+	void testSetPropertyFailsWithCRInKey() {
+		assertThrows(IllegalArgumentException.class, () -> properties.setProperty("keywith\rcarriagereturn", "value"));
+	}
+
+	@Test
+	void testSetPropertyFailsWithFFInKey() {
+		assertThrows(IllegalArgumentException.class, () -> properties.setProperty("keywith\fformfeed", "value"));
+	}
+
+	@Test
+	void testSetPropertyAcceptsSpacesInKey() {
+		String key = "key with spaces";
+		String originalValue = "original value";
+		properties.setProperty(key, originalValue);
+		assertEquals(originalValue, properties.getProperty(key));
+	}
+
+	@Test
 	void testSetPropertyNullValueRemovesProperty() {
 		String key = "key";
 		String originalValue = "original value";
