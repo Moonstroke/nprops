@@ -341,7 +341,7 @@ public class Properties implements Serializable {
 	private static void writeKey(String key, Writer writer) throws IOException {
 		for (int i = 0; i < key.length(); ++i) {
 			char c = key.charAt(i);
-			if (c == '=') {
+			if (c == '=' || c == '\\') {
 				writer.write('\\');
 			}
 			writer.write(c);
