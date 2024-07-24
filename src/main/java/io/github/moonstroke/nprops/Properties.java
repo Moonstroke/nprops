@@ -332,7 +332,7 @@ public class Properties implements Serializable {
 		for (Map.Entry<String, String> property : properties.entrySet()) {
 			writeKey(property.getKey(), writer);
 			writer.write('=');
-			writer.write(property.getValue());
+			writeValue(property.getValue(), writer);
 			writer.write(System.lineSeparator());
 		}
 		writer.flush();
@@ -345,6 +345,68 @@ public class Properties implements Serializable {
 				writer.write('\\');
 			}
 			writer.write(c);
+		}
+	}
+
+	private static void writeValue(String value, Writer writer) throws IOException {
+		if (value.isEmpty()) {
+			return;
+		}
+		writeEndChar(writer, value.charAt(0));
+		for (int i = 1; i < value.length() - 1; ++i) {
+			char c = value.charAt(i);
+			switch (c) {
+			case '\f':
+				writer.write("\\f");
+				break;
+			case '\n':
+				writer.write("\\n");
+				break;
+			case '\r':
+				writer.write("\\r");
+				break;
+			case '\t':
+				writer.write("\\t");
+				break;
+			case '\0':
+				writer.write("\\0");
+				break;
+			case '\\':
+				writer.write('\\');
+				/* Fallthrough intended */
+			default:
+				writer.write(c);
+			}
+		}
+		if (value.length() > 1) {
+			writeEndChar(writer, value.charAt(value.length() - 1));
+		}
+	}
+
+	/* Characters at the end of a property value need a different processing: a space character must be escaped there */
+	private static void writeEndChar(Writer writer, char endChar) throws IOException {
+		switch (endChar) {
+		case '\f':
+			writer.write("\\f");
+			break;
+		case '\n':
+			writer.write("\\n");
+			break;
+		case '\r':
+			writer.write("\\r");
+			break;
+		case '\t':
+			writer.write("\\t");
+			break;
+		case '\0':
+			writer.write("\\0");
+			break;
+		case ' ':
+		case '\\':
+			writer.write('\\');
+			/* Fallthrough intended */
+		default:
+			writer.write(endChar);
 		}
 	}
 
