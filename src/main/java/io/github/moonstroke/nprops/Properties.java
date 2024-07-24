@@ -330,12 +330,22 @@ public class Properties implements Serializable {
 	 */
 	public void store(Writer writer) throws IOException {
 		for (Map.Entry<String, String> property : properties.entrySet()) {
-			writer.write(property.getKey());
+			writeKey(property.getKey(), writer);
 			writer.write('=');
 			writer.write(property.getValue());
 			writer.write(System.lineSeparator());
 		}
 		writer.flush();
+	}
+
+	private static void writeKey(String key, Writer writer) throws IOException {
+		for (int i = 0; i < key.length(); ++i) {
+			char c = key.charAt(i);
+			if (c == '=') {
+				writer.write('\\');
+			}
+			writer.write(c);
+		}
 	}
 
 	/**
