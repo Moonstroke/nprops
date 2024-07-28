@@ -173,9 +173,10 @@ public class Properties implements Serializable {
 				throw new IllegalStateException("Line " + lineNumber + ": missing delimiter");
 			}
 			String key = extractComponent(line, firstSignificantIndex, delimiterIndex);
-			int firstSignificantValueIndex = skipWhitespaceFrom(line, delimiterIndex + 1);
 			String value;
-			if (firstSignificantValueIndex < 0) {
+			int firstSignificantValueIndex;
+			if (delimiterIndex == line.length() - 1 /* Empty value */
+			    || (firstSignificantValueIndex = skipWhitespaceFrom(line, delimiterIndex + 1)) < 0) {
 				value = "";
 			} else {
 				value = extractComponent(line, firstSignificantValueIndex, line.length());
