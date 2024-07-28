@@ -32,7 +32,7 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 	void loadDoesNothingOnBlankInput() {
 		loadFromString("  \t  \n \t  \r\n  ");
 	}
-	
+
 	@Test
 	void testLoadFailsWithoutDelimiter() {
 		assertThrows(IllegalStateException.class, () -> loadFromString("foo"));
@@ -41,6 +41,17 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 	@Test
 	void testLoadFailsWithColonAsDelimiter() {
 		assertThrows(IllegalStateException.class, () -> loadFromString("foo: bar"));
+	}
+
+	@Test
+	void testLoadFailsWithEmptyKey() {
+		assertThrows(IllegalStateException.class, () -> loadFromString("=foo"));
+	}
+
+	@Test
+	void testLoadAcceptsEmptyValue() {
+		loadFromString("foo=");
+		assertEquals("", properties.getProperty("foo"));
 	}
 
 	@Test
@@ -143,6 +154,14 @@ abstract class NPropsPropertiesLoadBaseTest extends BaseNpropsPropertiesTest {
 		loadFromString("foo \\: bar=baz");
 		assertNull(properties.getProperty("foo"));
 		assertEquals("baz", properties.getProperty("foo : bar"));
+	}
+
+	@Test
+	void testLoadFailsOnControlCharInKey() {
+		/* property file is:
+		 * foo\0bar=baz
+		 */
+		assertThrows(IllegalStateException.class, () -> loadFromString("foo\\0bar = baz"));
 	}
 
 	@Test
