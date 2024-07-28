@@ -463,8 +463,8 @@ public class Properties implements Serializable {
 		if (key == null) {
 			throw new NullPointerException("Cannot set null property");
 		}
-		if (key.isEmpty() || key.charAt(0) == ' ' || key.charAt(key.length() - 1) == ' '
-		    || key.chars().anyMatch(Character::isISOControl)) {
+		if (key.isEmpty() || Character.isWhitespace(key.charAt(0))
+		    || Character.isWhitespace(key.charAt(key.length() - 1)) || key.chars().anyMatch(Character::isISOControl)) {
 			throw new IllegalArgumentException("Invalid key");
 		}
 		properties.put(key, value);
