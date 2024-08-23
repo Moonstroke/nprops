@@ -172,14 +172,14 @@ public class Properties implements Serializable {
 			if (delimiterIndex < 0) {
 				throw new IllegalStateException("Line " + lineNumber + ": missing delimiter");
 			}
-			String key = extractComponent(line, firstSignificantIndex, delimiterIndex);
+			String key = extractComponent(line, firstSignificantIndex, delimiterIndex, true);
 			String value;
 			int firstSignificantValueIndex;
 			if (delimiterIndex == line.length() - 1 /* Empty value */
 			    || (firstSignificantValueIndex = skipWhitespaceFrom(line, delimiterIndex + 1)) < 0) {
 				value = "";
 			} else {
-				value = extractComponent(line, firstSignificantValueIndex, line.length());
+				value = extractComponent(line, firstSignificantValueIndex, line.length(), false);
 			}
 			setProperty(key, value);
 		}
@@ -225,7 +225,7 @@ public class Properties implements Serializable {
 		return index;
 	}
 
-	private String extractComponent(String line, int from, int to) {
+	private String extractComponent(String line, int from, int to, boolean isKey) {
 		StringBuilder component = new StringBuilder(to - from);
 		int i = from;
 		/* while, not for, so that the increment is not performed when continue is hit */
@@ -235,6 +235,17 @@ public class Properties implements Serializable {
 				++i;
 				/* No need to check if i < line.length, because the line has already been unwrapped */
 				c = unescape(line.charAt(i));
+				/* The key requirements are stricter than value ones: leading/trailing whitespace (even escaped) and
+				 * control characters are not accepted */
+				if (isKey) {
+					if ((i == from + 1 || i == to) && Character.isWhitespace(c)) {
+						throw new IllegalStateException("Line " + lineNumber
+						                                + ": key cannot start or end with an (escaped) space");
+					} else if (Character.isISOControl(c)) {
+						throw new IllegalStateException("Line " + lineNumber
+						                                + ": key cannot contain control characters");
+					}
+				}
 			} else if (Character.isWhitespace(c)) {
 				/* Is this whitespace run at the end of the requested range? */
 				int firstCharNotWsIndex = skipWhitespaceFrom(line, i + 1);
