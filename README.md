@@ -77,19 +77,20 @@ project simple. Below is a list, hopefully complete, of these differences.
 	translate the sequence to the character represented. The recognized sequences
 	are as follows:
 	
-	|Escape sequence|Character represented
-	|:-------------:|:-------------------:
-	|     `\n`      | ASCII new line (LF)
-	|     `\r`      |ASCII carriage return
-	|     `\t`      |horizontal tabulation
-	|     `\f`      |    ASCII form feed
-	|     `\0`      |   ASCII NUL byte
-	|     `\\`      |  literal backslash
-	|     `\'`      |    single quote
-	|     `\"`      |    double quotes
-	|     `\=`      |     equals sign
-	|     `\:`      |        colon
-	|     `\ `      |   space character
+	|    Escape sequence     |Character represented
+	|:----------------------:|:-------------------:
+	|         `\n`           | ASCII new line (LF)
+	|         `\r`           |ASCII carriage return
+	|         `\t`           |horizontal tabulation
+	|         `\f`           |    ASCII form feed
+	|         `\0`           |   ASCII NUL byte
+	|         `\\`           |  literal backslash
+	|         `\'`           |    single quote
+	|         `\"`           |    double quotes
+	|         `\=`           |     equals sign
+	|         `\:`           |        colon
+	|         `\ `           |   space character
+	|`\↲` (actual line break)|ignore the line break
 
 	Although the single and double quote characters, as well as the colon, have no
 	meaning for the project, escape sequences for these are accepted.
@@ -105,6 +106,14 @@ project simple. Below is a list, hopefully complete, of these differences.
 
 	As control characters are not allowed in the property key, neither is a NUL
 	byte escape accepted there.
+
+	A single (unescaped) backslash at the end of the line prevents the line break
+	from terminating the property. The line break and any leading whitespace on the
+	next line is discarded; the rest of the line is appended to the first line as
+	if it had been a single, long line. This allows to format the presentation of
+	the properties file without affecting its logical content. Both the key and the
+	value can be split this way, and multiple consecutive lines can be broken
+	(resulting in a single, big logical property line).
 
 	When writing the properties to a file, the library does not use all these
 	escape sequences but only the ones that are necessary to keep the properties
