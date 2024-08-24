@@ -40,24 +40,23 @@ project simple. Below is a list, hopefully complete, of these differences.
 
 4. Dropped support for XML I/O.
 
-	For the most part, it is the `.properties` format that is used to store
+	It is mostly the `.properties` format that is used for persistence of the
 	properties; it is clear, legible and concise. The XML format is far seldom
-	used, so support is not essential. Moreover, it is more verbose and less
-	convenient.
+	used, so support was deemed not essential; moreover, it is more verbose and
+	less convenient.
 
 5. No timestamp comment when writing to a file
 
 	The systematic injection of the current date and time as header of the file
-	produced breaks reproducibility and is usually not required. Thus, this
-	class does not generate it by default. If it is really necessary, it can be
-	passed as the `comments`	parameter to the 2-argument overload of the
-	method `store`.
+	produced breaks reproducibility and is rarely valuable; thus, the class will
+	not generate it by default. If it is really necessary, it can be	passed as
+	the `comments`	parameter to the 2-argument overload of the method `store`.
 
 6. No non-valued properties
 
 	Property definitions where the delimiter and value are both omitted are not
 	accepted. This syntax is not clear, having a trailing delimiter conveys
-	more clearly the idea that the property value is empty.
+	more clearly the idea that the property value is intended to be empty.
 
 7. No colon as delimiter
 
@@ -68,12 +67,11 @@ project simple. Below is a list, hopefully complete, of these differences.
 8. No exclamation mark as comment character
 
 	In the same vein, the class only recognizes one character to denote a
-	comment line, the most widespread of the two: the hash sign. This maintains
-	immediate interoperability with usual scripting languages, although this is
-	not a goal of the project.
+	comment line, the hash sign. This maintains	immediate interoperability with
+	usual scripting languages (although this is not a goal of the project).
 
 9. No silent discard of non-escaping backslashes
 
 	Simply ignoring backslashes that are not part of an escape sequence is one
-	of the most decried features of the standard `Properties` class. This one
+	of the most decried features of the standard `Properties` class. The class
 	instead considers them to be malformed input and fails loudly.
