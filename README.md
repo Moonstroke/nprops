@@ -70,7 +70,50 @@ project simple. Below is a list, hopefully complete, of these differences.
 	comment line, the hash sign. This maintains	immediate interoperability with
 	usual scripting languages (although this is not a goal of the project).
 
-9. No silent discard of non-escaping backslashes
+9. Backslash escapes
+
+	Special characters are represented in properties file with a backslash
+	followed by a printable character. When parsing the file, the class will
+	translate the sequence to the character represented. The recognized sequences
+	are as follows:
+	
+	|Escape sequence|Character represented
+	|:-------------:|:-------------------:
+	|     `\n`      | ASCII new line (LF)
+	|     `\r`      |ASCII carriage return
+	|     `\t`      |horizontal tabulation
+	|     `\f`      |    ASCII form feed
+	|     `\0`      |   ASCII NUL byte
+	|     `\\`      |  literal backslash
+	|     `\'`      |    single quote
+	|     `\"`      |    double quotes
+	|     `\=`      |     equals sign
+	|     `\:`      |        colon
+	|     `\ `      |   space character
+
+	Although the single and double quote characters, as well as the colon, have no
+	meaning for the project, escape sequences for these are accepted.
+	An escaped equals sign loses its special meaning as key-value delimiter. It is
+	thus required to escape an equals sign to embed it in the key itself; an equals
+	sign does not need to be escaped in the value, but it is accepted, as escaping
+	it conveys clearly that the character is not intended as delimiter. As
+	whitespace at the boundaries of the key and values is discarded, to force a
+	space character to be retained at an edge of the value (this is not accepted
+	for the key), it can be escaped. Spaces can also be escaped in the middle of
+	the key (or value) although this is not necessary, as only the (first
+	unescaped) equals sign delimits the key from the value.
+
+	As control characters are not allowed in the property key, neither is a NUL
+	byte escape accepted there.
+
+	When writing the properties to a file, the library does not use all these
+	escape sequences but only the ones that are necessary to keep the properties
+	components unchanged: escaped leading/trailing space around the value, escaped
+	equals sign in the key, escaped line break characters, tabulations, NUL bytes
+	and backslashes.
+
+
+10. No silent discard of non-escaping backslashes
 
 	Simply ignoring backslashes that are not part of an escape sequence is one
 	of the most decried features of the standard `Properties` class. The class
