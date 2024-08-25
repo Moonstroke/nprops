@@ -495,7 +495,7 @@ public class Properties implements Serializable {
 	 *         given key
 	 */
 	public String getProperty(String key) {
-		return properties.get(key);
+		return key == null ? null : properties.get(key);
 	}
 
 	/**
