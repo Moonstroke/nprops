@@ -121,7 +121,6 @@ project simple. Below is a list, hopefully complete, of these differences.
 	equals sign in the key, escaped line break characters, tabulations, NUL bytes
 	and backslashes.
 
-
 10. No silent discard of non-escaping backslashes
 
 	Simply ignoring backslashes that are not part of an escape sequence is one
