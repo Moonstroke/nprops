@@ -126,3 +126,10 @@ project simple. Below is a list, hopefully complete, of these differences.
 	Simply ignoring backslashes that are not part of an escape sequence is one
 	of the most decried features of the standard `Properties` class. The class
 	instead considers them to be malformed input and fails loudly.
+
+11. No synchronization on methods
+
+	Public methods in the class are not declared `synchronized`. Concurrent
+	accesses are still handled properly (as `Properties` objects are likely to be
+	shared across applications), but internally to the methods, to avoid the
+	systematic overhead.
