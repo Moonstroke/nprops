@@ -479,7 +479,11 @@ public class Properties implements Serializable {
 		    || Character.isWhitespace(key.charAt(key.length() - 1)) || key.chars().anyMatch(Character::isISOControl)) {
 			throw new IllegalArgumentException("Invalid key");
 		}
-		properties.put(key, value);
+		if (value == null) {
+			properties.remove(key);
+		} else {
+			properties.put(key, value);
+		}
 	}
 
 	/**
